@@ -31,7 +31,18 @@
 </script>
 
 <script>
+  import { onMount } from 'svelte'
+
   export let orders
+
+  onMount(() => {
+    setInterval(longPolling, 5000)
+  })
+
+  async function longPolling() {
+    const res = await fetch('http://localhost:3033/orders')
+    orders = await res.json()
+  }
 
   async function cancelOrder(event) {
     const orderId = event.target.value
