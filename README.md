@@ -1,6 +1,16 @@
-# sapper-template
+# Setel interview test (Frontend)
 
-The default [Sapper](https://github.com/sveltejs/sapper) template, available for Rollup and webpack.
+This is the frontend part of a setel interview test. This is using svelte on top of sapper framework.
+Why sapper? Because I think svelte is much cleaner and its fun to do svelte.
+
+Basic functionalities includes:
+
+* List all orders in index page
+* Cancel order in index page
+* Create a new order
+* Long polling every 5 seconds if someone else added orders
+
+This does not have user or permission functionalities.
 
 
 ## Getting started
