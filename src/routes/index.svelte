@@ -1,29 +1,19 @@
 <style>
-	h1, figure, p {
+	h1 {
 		text-align: center;
 		margin: 0 auto;
-	}
-
-	h1 {
 		font-size: 2.8em;
 		text-transform: uppercase;
 		font-weight: 700;
-		margin: 0 0 0.5em 0;
 	}
 
-	figure {
-		margin: 0 0 1em 0;
-	}
+  h4 {
+    text-align: right;
+  }
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
+  p {
+    margin: 0
+  }
 
 	@media (min-width: 480px) {
 		h1 {
@@ -32,15 +22,32 @@
 	}
 </style>
 
+<script context="module">
+  export async function preload(page, session) {
+    const res = await this.fetch('http://localhost:3033/orders')
+    const orders = await res.json()
+    return { orders }
+  }
+</script>
+
+<script>
+  export let orders
+
+  async function cancelOrder(event) {
+    const orderId = event.target.value
+    console.log('cancelling order for id', orderId)
+    await fetch(`http://localhost:3033/orders/${orderId}`, { method: 'DELETE' })
+  }
+</script>
+
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Setel app</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<h1>My Orders</h1>
+<a href="/new"><h4>Create New</h4></a>
 
-<figure>
-	<img alt='Success Kid' src='successkid.jpg'>
-	<figcaption>Have fun with Sapper!</figcaption>
-</figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+{#each orders as order}
+  <p>{order.id} {order.name} {order.status}</p>
+  <button on:click={cancelOrder} value={order.id}>cancel</button>
+{/each}
